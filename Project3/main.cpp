@@ -75,6 +75,8 @@ int solution(vector<vector<int> >& sortedArray){
         int bestBeforeOverlap = binarySearch(sortedArray,sortedArray[right][0],right);
         if(bestBeforeOverlap == -1){
             res[right] = sortedArray[right][2];
+            right++;
+            continue;
         }
         res[right] = max(res[right-1],sortedArray[right][2]+res[bestBeforeOverlap]);
         cout<<"Best before: "<<bestBeforeOverlap<<endl;
