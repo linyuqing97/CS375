@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <chrono>
+#include <algorithm>
 #include "FileProcessor.hpp"
 using namespace std;
 using namespace chrono;
@@ -24,6 +25,12 @@ vector<vector<int> > sortInput(vector<int>startTimes,vector<int>endTimes,vector<
         sortedArray.push_back(temp);
     }
     sort(sortedArray.begin(),sortedArray.end(),compare);// nlogn
+    for(int i = 0;i<sortedArray.size();i++){
+        for(int j = 0;j<sortedArray[0].size();j++){
+            cout<<sortedArray[i][j];
+        }
+        cout<<endl;
+    }
     return sortedArray;
 };
 
@@ -55,21 +62,30 @@ int binarySearch(vector<vector<int> >& sortedArray,int startTime,int index){
             left = mid+1;
         }
     }
-    return left;
+    return -1;
 }
 
 
 int solution(vector<vector<int> >& sortedArray){
     vector<int>res(sortedArray.size(),0);
     int right = 1;
+    res[0] = sortedArray[0][2];
     
     while(right < res.size()){
         int bestBeforeOverlap = binarySearch(sortedArray,sortedArray[right][0],right);
+        if(bestBeforeOverlap == -1){
+            res[right] = sortedArray[right][2];
+        }
         res[right] = max(res[right-1],sortedArray[right][2]+res[bestBeforeOverlap]);
+        cout<<"Best before: "<<bestBeforeOverlap<<endl;
+        print(res);
         right++;
     }
     int result = res[res.size()-1];
-  
+    for(auto i : res){
+        cout<<i<<" ";
+    }
+    cout<<endl;
     return result;
 }
 
