@@ -1,7 +1,9 @@
 #include <iostream>
 #include <vector>
+#include <chrono>
 #include "FileProcessor.hpp"
 using namespace std;
+using namespace chrono;
 
 bool compare(const vector<int>& v1, const vector<int>& v2){
     return v1[1] < v2[1];
@@ -74,7 +76,13 @@ int solution(vector<vector<int> >& sortedArray){
 int main(int argc, const char * argv[]) {
     FileProcessor fileProcessor;
     fileProcessor.phraseInput(argv[1]);
+    auto start = high_resolution_clock::now();
     vector<vector<int> >sortedArray = sortInput(fileProcessor.getStartTime(),fileProcessor.getEndTime(),fileProcessor.getProfits());
-    cout<<solution(sortedArray);
+    int result = solution(sortedArray);
+    auto stop = high_resolution_clock::now(); 
+    auto duration = duration_cast<microseconds>(stop - start); 
+    
+    cout << "Time taken by function: "<< duration.count() << " microseconds" << endl; 
+    cout << "Reuslt is : "<<result<<endl;
     return 0;
 }
